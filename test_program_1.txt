@@ -1,0 +1,5 @@
+VOLUME myVolume = 1
+NOTE note = C4
+DURATION duration = 20
+STREAM stream = (duration) + (note) + (myVolume) + (myVolume)
+
