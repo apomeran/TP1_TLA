@@ -18,19 +18,20 @@ FREQUENCY    "FREQUENCY"\{{NAME}\}={FREQUENCY_VALUE}
 VOLUME        "VOLUME"\{{NAME}\}={VOLUME_VALUE}
 DURATION    "DURATION"\{{NAME}\}={DURATION_VALUE}
 STREAM        "STREAM"\{{NAME}\}={ITEM}(\+{ITEM})*
-VAR_ASSIGN {VAR_DEFINITION}={ITEM}$
+VAR_ASSIGN {VAR_DEFINITION}={ITEM}
 
 %%
 
-{VOLUME}$              printf("Token VOLUME %s\n", yytext);
-{ENDFUNCTION}               printf("Token ENDFUNCTION %s\n", yytext);
-{FUNCTION_CALL}           printf("Token FUNCTION_CALL %s\n", yytext);
-{FREQUENCY}$           printf("Token FREQUENCY %s\n", yytext);
-{DURATION}$              printf("Token DURATION %s\n", yytext);
-{FUNCTION}               printf("Token FUNCTION %s\n", yytext);
-{NOTE}$                   printf("Token NOTE %s\n", yytext);
-{STREAM}$             printf("Token STREAM %s\n", yytext);
-.$                         printf("Token invalido\n");
+^{VOLUME}$              printf("<TOKEN %s>\n", yytext);
+^{ENDFUNCTION}$               printf("<TOKEN %s>\n", yytext);
+^{FUNCTION_CALL}$           printf("<TOKEN %s>\n", yytext);
+^{FREQUENCY}$           printf("<TOKEN %s>\n", yytext);
+^{DURATION}$              printf("<TOKEN %s>\n", yytext);
+^{FUNCTION}$               printf("<TOKEN %s>\n", yytext);
+^{NOTE}$                   printf("<TOKEN %s>\n", yytext);
+^{STREAM}$             printf("<TOKEN %s>\n", yytext);
+^{VAR_ASSIGN}$		printf("<TOKEN %s>", yytext);
+.$                         printf("Token Invalido\n");
 
 %%
 
