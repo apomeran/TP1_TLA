@@ -1,2 +1,1 @@
 flex parser.l && gcc -o Parser lex.yy.c -lfl
-./Parser < test_program_1.txt

@@ -1,0 +1,9 @@
+invalid token
+another invalid token
+
+a valid one after this
+NOTE{note}=G4
+
+
+now more invalid tokens
+yet another invalid token

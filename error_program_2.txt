@@ -1,0 +1,6 @@
+NOTE{4startWithNumber}=C4
+NOTE{invalidValue}=E#5
+FREQUENCY{invalidValue2}=33.3333
+DURATION{invalidValue3}=VALOR_INVALIDO
+STREAM{s}=C4+E3+CALL(function)+invalidValue
+

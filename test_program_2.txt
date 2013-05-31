@@ -1,0 +1,9 @@
+FUNCTION(func)
+NOTE{note}=A#4
+[note]=A#5
+NOTE{note2}=(note)
+STREAM{stream}=V1+T150+(note)+(note2)
+ENDFUNCTION(func)
+
+STREAM{myStream}=CALL(func)+(note)+CALL(func)+T100+C8+C6
+STREAM{anotherStream}=(myStream)+(myStream)

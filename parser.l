@@ -13,10 +13,10 @@ FUNCTION        "FUNCTION"\({NAME}\)
 ENDFUNCTION     "ENDFUNCTION"\({NAME}\)
 FUNCTION_CALL   "CALL"\({NAME}\)
 ITEM    ({VAR_VALUE}|{NOTE_VALUE}|{FREQUENCY_VALUE}|{VOLUME_VALUE}|{DURATION_VALUE}|{FUNCTION_CALL})
-NOTE        "NOTE"\{{NAME}\}={NOTE_VALUE}
-FREQUENCY    "FREQUENCY"\{{NAME}\}={FREQUENCY_VALUE}
-VOLUME        "VOLUME"\{{NAME}\}={VOLUME_VALUE}
-DURATION    "DURATION"\{{NAME}\}={DURATION_VALUE}
+NOTE        "NOTE"\{{NAME}\}=({NOTE_VALUE}|{VAR_VALUE})
+FREQUENCY    "FREQUENCY"\{{NAME}\}=({FREQUENCY_VALUE}|{VAR_VALUE})
+VOLUME        "VOLUME"\{{NAME}\}=({VOLUME_VALUE}|{VAR_VALUE})
+DURATION    "DURATION"\{{NAME}\}=({DURATION_VALUE}|{VAR_VALUE})
 STREAM        "STREAM"\{{NAME}\}={ITEM}(\+{ITEM})*
 VAR_ASSIGN {VAR_DEFINITION}={ITEM}
 
@@ -31,7 +31,7 @@ VAR_ASSIGN {VAR_DEFINITION}={ITEM}
 ^{NOTE}$                   printf("<TOKEN %s>\n", yytext);
 ^{STREAM}$             printf("<TOKEN %s>\n", yytext);
 ^{VAR_ASSIGN}$		printf("<TOKEN %s>", yytext);
-.$                         printf("Token Invalido\n");
+^(.+)$                         printf("INVALID TOKEN (%s)\n", yytext);
 
 %%
 
