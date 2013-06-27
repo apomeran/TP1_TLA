@@ -1,0 +1,11 @@
+#define VOL 257
+#define ENDF 258
+#define F_CALL 259
+#define FREQ 260
+#define DUR 261
+#define FUNC 262
+#define NOT 263
+#define STR 264
+#define VAR 265
+#define INVALID 266
+#define MAIN 267
