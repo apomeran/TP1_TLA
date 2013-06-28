@@ -19,15 +19,6 @@ char * get_var(char*);
 	char * strval;
 }
 
-%token <strval> VOL;
-%token <strval> F_CALL;
-%token <strval> FREQ;
-%token <strval> DUR;
-%token <strval> FUNC;
-%token <strval> NOT;
-%token <strval> STR;
-%token <strval> VAR;
-
 %token OUT;
 %token LEFT_PARENTHESIS;
 %token RIGHT_PARENTHESIS;
@@ -35,13 +26,17 @@ char * get_var(char*);
 %token RIGHT_BRACE;
 %token EQUALS;
 %token TYPE;
+%token PLUS;
+%token STREAM;
+%token INVALID;
+%token ENDF;
 
 %token <strval> ITEM;
 %token <strval> NAME;
 
-%token INVALID;
-%token ENDF;
 
+%type <strval> VAR_VALUE;
+%type <strval> STREAM_ITEM;
 %type <strval> TOKEN;
 
 %start PROGRAM
@@ -69,15 +64,44 @@ TOKEN:		TOKEN TOKEN{}
 			set_var($3, $6);
 		}
 		|	
-		OUT LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
-		{
-			printf("Var: %s\n", get_var($3));
-		}
-		|
-		LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
+		OUT VAR_VALUE
 		{
 			printf("%s\n", get_var($2));
+		}
+		|
+		STREAM LEFT_BRACE NAME RIGHT_BRACE EQUALS STREAM_ITEM
+		{
+			set_var($3, $6);
 		};
+
+STREAM_ITEM:	STREAM_ITEM PLUS STREAM_ITEM 
+		{	
+			char * new_stream = malloc(strlen($1) + strlen($3) + 1);
+			strcpy(new_stream, $1);
+			strcat(new_stream, " ");
+			strcat(new_stream, $3);
+			printf("holi\n");
+			printf("new stream: %s", new_stream);
+			$$ = new_stream;
+		}
+		|
+		VAR_VALUE
+		{
+			printf("var value");
+			$$ = $1;
+		}
+		|
+		ITEM
+		{
+			printf("item");
+			$$ = $1;
+		};
+
+VAR_VALUE:	LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS 
+		{
+			$$ = get_var($2);
+		}
+
 
 
 %%

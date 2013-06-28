@@ -37,47 +37,35 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     VOL = 258,
-     F_CALL = 259,
-     FREQ = 260,
-     DUR = 261,
-     FUNC = 262,
-     NOT = 263,
-     STR = 264,
-     VAR = 265,
-     OUT = 266,
-     LEFT_PARENTHESIS = 267,
-     RIGHT_PARENTHESIS = 268,
-     LEFT_BRACE = 269,
-     RIGHT_BRACE = 270,
-     EQUALS = 271,
-     TYPE = 272,
-     ITEM = 273,
-     NAME = 274,
-     INVALID = 275,
-     ENDF = 276
+     OUT = 258,
+     LEFT_PARENTHESIS = 259,
+     RIGHT_PARENTHESIS = 260,
+     LEFT_BRACE = 261,
+     RIGHT_BRACE = 262,
+     EQUALS = 263,
+     TYPE = 264,
+     PLUS = 265,
+     STREAM = 266,
+     INVALID = 267,
+     ENDF = 268,
+     ITEM = 269,
+     NAME = 270
    };
 #endif
 /* Tokens.  */
-#define VOL 258
-#define F_CALL 259
-#define FREQ 260
-#define DUR 261
-#define FUNC 262
-#define NOT 263
-#define STR 264
-#define VAR 265
-#define OUT 266
-#define LEFT_PARENTHESIS 267
-#define RIGHT_PARENTHESIS 268
-#define LEFT_BRACE 269
-#define RIGHT_BRACE 270
-#define EQUALS 271
-#define TYPE 272
-#define ITEM 273
-#define NAME 274
-#define INVALID 275
-#define ENDF 276
+#define OUT 258
+#define LEFT_PARENTHESIS 259
+#define RIGHT_PARENTHESIS 260
+#define LEFT_BRACE 261
+#define RIGHT_BRACE 262
+#define EQUALS 263
+#define TYPE 264
+#define PLUS 265
+#define STREAM 266
+#define INVALID 267
+#define ENDF 268
+#define ITEM 269
+#define NAME 270
 
 
 
@@ -94,7 +82,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 98 "y.tab.h"
+#line 86 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

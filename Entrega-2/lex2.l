@@ -19,26 +19,23 @@ FUNCTION        "FUNCTION"\({NAME}\)
 ENDFUNCTION     "ENDFUNCTION"\({NAME}\)
 FUNCTION_CALL   "CALL"\({NAME}\)
 ITEM    ({NOTE_VALUE}|{FREQUENCY_VALUE}|{VOLUME_VALUE}|{DURATION_VALUE}|{FUNCTION_CALL})
-NOTE        "NOTE"\{{NAME}\}=({NOTE_VALUE}|{VAR_VALUE})
-FREQUENCY    "FREQUENCY"\{{NAME}\}=({FREQUENCY_VALUE}|{VAR_VALUE})
-VOLUME        "VOLUME"\{{NAME}\}=({VOLUME_VALUE}|{VAR_VALUE})
-DURATION    "DURATION"\{{NAME}\}=({DURATION_VALUE}|{VAR_VALUE})
-STREAM        "STREAM"\{{NAME}\}={ITEM}(\+{ITEM})*
 VAR_ASSIGN {VAR_DEFINITION}={ITEM}
 TYPE	("NOTE"|"FREQ"|"VOL"|"DUR")
+STREAM	("STREAM")
 
 %%
 
-"("	return(LEFT_PARENTHESIS);
-")"	return(RIGHT_PARENTHESIS);
-"{"	return(LEFT_BRACE);
-"}"	return(RIGHT_BRACE);
-"="	return(EQUALS);
-"OUT"	return(OUT);
-{TYPE}	return(TYPE);
-{ITEM}	yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
-
-{NAME}	yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
+"("		return(LEFT_PARENTHESIS);
+")"		return(RIGHT_PARENTHESIS);
+"{"		return(LEFT_BRACE);
+"}"		return(RIGHT_BRACE);
+"+"		return(PLUS);
+"="		return(EQUALS);
+"OUT"		return(OUT);
+^{STREAM}	return(STREAM);
+^{TYPE}		return(TYPE);
+{ITEM}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
+{NAME}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
 
 %%
 
