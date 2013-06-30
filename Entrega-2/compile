@@ -1,0 +1,4 @@
+bison -yd ./grammar.y -v
+flex ./lex.l
+gcc -o compiler lex.yy.c y.tab.c -ly -ll
+rm y.tab.* lex.yy.c y.output

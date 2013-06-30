@@ -18,33 +18,27 @@ FREQUENCY_VALUE ((0|([1-9][0-9]{0,2})|([1-4][0-9]{3}))((\.([0-9]){1,2})?))
 FUNCTION        "FUNCTION"\({NAME}\)
 ENDFUNCTION     "ENDFUNCTION"\({NAME}\)
 FUNCTION_CALL   "CALL"\({NAME}\)
-ITEM    ({VAR_VALUE}|{NOTE_VALUE}|{FREQUENCY_VALUE}|{VOLUME_VALUE}|{DURATION_VALUE}|{FUNCTION_CALL})
+ITEM    ({NOTE_VALUE}|{FREQUENCY_VALUE}|{VOLUME_VALUE}|{DURATION_VALUE}|{FUNCTION_CALL})
 NOTE        "NOTE"\{{NAME}\}=({NOTE_VALUE}|{VAR_VALUE})
 FREQUENCY    "FREQUENCY"\{{NAME}\}=({FREQUENCY_VALUE}|{VAR_VALUE})
 VOLUME        "VOLUME"\{{NAME}\}=({VOLUME_VALUE}|{VAR_VALUE})
 DURATION    "DURATION"\{{NAME}\}=({DURATION_VALUE}|{VAR_VALUE})
 STREAM        "STREAM"\{{NAME}\}={ITEM}(\+{ITEM})*
 VAR_ASSIGN {VAR_DEFINITION}={ITEM}
-OUT	"OUT"({ITEM})
+TYPE	("NOTE"|"FREQ"|"VOL"|"DUR")
 
 %%
 
-^{VOLUME}$              return VOL;
-^{ENDFUNCTION}$         return ENDF;
-^{FUNCTION_CALL}$       return F_CALL;
-^{FREQUENCY}$           return FREQ;
-^{DURATION}$            return DUR;
-^{FUNCTION}$            return FUNC;
-^{NOTE}$                {
-				yytext = strchr(yytext, '=') + sizeof(char);
-				yylval.strval = malloc(strlen(yytext));
-				strcpy(yylval.strval, yytext);
-				return NOT;
-			}
-^{STREAM}$          	return STR;
-^{VAR_ASSIGN}$       	return VAR;
-^{OUT}$			return OUT;
-^(.+)$                  return INVALID;
+"("	return(LEFT_PARENTHESIS);
+")"	return(RIGHT_PARENTHESIS);
+"{"	return(LEFT_BRACE);
+"}"	return(RIGHT_BRACE);
+"="	return(EQUALS);
+"OUT"	return(OUT);
+{TYPE}	return(TYPE);
+{ITEM}	yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
+
+{NAME}	yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
 
 %%
 
