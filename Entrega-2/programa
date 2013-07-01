@@ -1,12 +1,14 @@
-NOTE{nota}=D4
+NOTE{nota}=D4-C4
 NOTE{nota2}=D5
-VOLUME{vol}=V1
+VOLUME{vol}=V100
 STREAM{str}=T144+(vol)+(nota)+C4+D4
+
 OUT(str)
 OUT(nota)
 FUNCTION(f)
 NOTE{notaf}=D6
 OUT(notaf)
+
 STREAM{strf}=(notaf)+(notaf)+T120
 OUT(strf)
 ENDFUNCTION(f)

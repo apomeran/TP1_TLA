@@ -11,6 +11,9 @@
 char vars[1024][2][1024];
 char funcs[1024][2][1024];
 
+FILE * output_file = NULL;
+char * output_file_name = "my_song";
+
 int in_function = 0;
 char current_function[1024];
 char function_out[1024];
@@ -20,6 +23,7 @@ char * get_var(char*);
 void set_func(char*,char*);
 char * get_func(char*);
 
+void error(char*);
 %}
 
 %union{
@@ -37,7 +41,6 @@ char * get_func(char*);
 %token STREAM;
 %token INVALID;
 %token ENDF;
-%token LAMBDA;
 %token EOL;
 %token ENDFUNCTION;
 %token CALL;
@@ -85,7 +88,7 @@ TOKEN:		TOKEN TOKEN {}
 		OUT VAR_VALUE EOL
 		{
 			if (!in_function) {
-				printf("%s\n", $2);
+				fprintf(output_file, "%s ", $2);
 			} else {
 				if (function_out[0] != 0)	
 					strcat(function_out, " ");
@@ -103,7 +106,7 @@ TOKEN:		TOKEN TOKEN {}
 		{
 			printf("Entrando a funcion\n");
 			if(in_function)
-				yyerror("Nested functions!\n");
+				error("Nested functions!\n");
 			in_function++;
 			strcpy(current_function, $2);
 		} 
@@ -111,7 +114,8 @@ TOKEN:		TOKEN TOKEN {}
 		ENDFUNCTION VAR_NAME EOL
 		{
 			if (current_function == NULL || strcmp(current_function, $2))
-				yyerror("Bad EndFunction\n");
+				error("Bad EndFunction\n");
+			in_function--;
 			set_func(current_function, function_out);
 			int i;
 			for (i = 0; i < 1024 && function_out[i] != 0; i++)
@@ -120,8 +124,10 @@ TOKEN:		TOKEN TOKEN {}
 		|
 		CALL FUNC_VALUE EOL
 		{
-			printf("%s\n", $2);	
-		};
+			fprintf(output_file,"%s ", $2);	
+		}
+		|
+		EOL {};
 
 STREAM_ITEM:	STREAM_ITEM PLUS STREAM_ITEM 
 		{	
@@ -171,7 +177,13 @@ int yywrap() {
 }
 
 int main(void) {
-	yyparse();
+        output_file = fopen(output_file_name, "w");
+        if ( output_file == NULL ) {
+                printf("Couldn't open output file\n");
+                return 1;
+        }
+        yyparse();
+        fclose(output_file);
 }
 
 void set_var(char * name, char * value) {
@@ -186,7 +198,7 @@ void set_var(char * name, char * value) {
  		return;
 	}
 	
-	printf("No se pudo guardar\n");
+	error("No se pudo guardar la variable\n");
 }
 
 char * get_var(char * name) {
@@ -200,7 +212,7 @@ char * get_var(char * name) {
 			return vars[i][1];	
 	}
 
-	printf("No se encontro\n");
+	error("No se encontro la variable\n");
 }
 
 
@@ -216,7 +228,7 @@ void set_func(char * name, char * value) {
  		return;
 	}
 	
-	printf("No se pudo guardar\n");
+	error("No se pudo guardar la funcion\n");
 }
 
 char * get_func(char * name) {
@@ -230,5 +242,10 @@ char * get_func(char * name) {
 			return funcs[i][1];	
 	}
 
-	printf("No se encontro\n");
+	error("No se encontro la funcion %s");
+}
+
+void error(char* err) {
+	remove(output_file_name);
+	yyerror(err);
 }

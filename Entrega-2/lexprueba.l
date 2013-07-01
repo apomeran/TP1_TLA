@@ -9,7 +9,7 @@ VAR_DEFINITION \[{NAME}\]
 VAR_VALUE    \({NAME}\)
 OCTAVE        [0-8]
 SHARP        \#
-VOLUME_VALUE      "V"[0-1]
+VOLUME_VALUE      "V"(0[0-9][0-9]|"100")
 DURATION_VALUE    "T"(0|([1-9][0-9]{0,2}))       
 REGULAR_NOTE_VALUE     [A|C|D|F|G]
 IRREGULAR_NOTE_VALUE [B|E]
@@ -31,13 +31,12 @@ STREAM	("STREAM")
 "="		return(EQUALS);
 "OUT"		return(OUT);
 "\n"		return(EOL);
-"\n\n"		return(LAMBDA);
 ^{STREAM}	return(STREAM);
 ^{TYPE}		return(TYPE);
 ^{FUNCTION}	printf("Function\n");return(FUNCTION);
 ^{ENDFUNCTION}	printf("EndFucnction\n");return(ENDFUNCTION);
 ^{CALL}		return(CALL);
-{ITEM}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
+{ITEM}		printf("Item: %s\n", yytext);yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
 {NAME}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
 
 

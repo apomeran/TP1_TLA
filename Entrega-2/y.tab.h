@@ -48,13 +48,12 @@
      STREAM = 266,
      INVALID = 267,
      ENDF = 268,
-     LAMBDA = 269,
-     EOL = 270,
-     ENDFUNCTION = 271,
-     CALL = 272,
-     ITEM = 273,
-     NAME = 274,
-     FUNCTION = 275
+     EOL = 269,
+     ENDFUNCTION = 270,
+     CALL = 271,
+     ITEM = 272,
+     NAME = 273,
+     FUNCTION = 274
    };
 #endif
 /* Tokens.  */
@@ -69,13 +68,12 @@
 #define STREAM 266
 #define INVALID 267
 #define ENDF 268
-#define LAMBDA 269
-#define EOL 270
-#define ENDFUNCTION 271
-#define CALL 272
-#define ITEM 273
-#define NAME 274
-#define FUNCTION 275
+#define EOL 269
+#define ENDFUNCTION 270
+#define CALL 271
+#define ITEM 272
+#define NAME 273
+#define FUNCTION 274
 
 
 
@@ -85,14 +83,14 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 25 "grammar.y"
+#line 29 "grammar.y"
 
 	char * strval;
 
 
 
 /* Line 2068 of yacc.c  */
-#line 96 "y.tab.h"
+#line 94 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
