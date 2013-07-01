@@ -39,8 +39,6 @@ void error(char*);
 %token TYPE;
 %token PLUS;
 %token STREAM;
-%token INVALID;
-%token ENDF;
 %token EOL;
 %token ENDFUNCTION;
 %token CALL;
@@ -71,7 +69,7 @@ PROGRAM:	TOKEN
 			}
 		};
 
-TOKEN:		TOKEN TOKEN {}
+TOKEN:		TOKEN TOKEN{}
 		|
 		TYPE ASSIGN_NAME EQUALS VAR_VALUE EOL
 		{
@@ -114,7 +112,7 @@ TOKEN:		TOKEN TOKEN {}
 		ENDFUNCTION VAR_NAME EOL
 		{
 			if (current_function == NULL || strcmp(current_function, $2))
-				error("Bad EndFunction\n");
+				error("End function no concuerda con el nombre de la funcion\n");
 			in_function--;
 			set_func(current_function, function_out);
 			int i;
@@ -127,7 +125,7 @@ TOKEN:		TOKEN TOKEN {}
 			fprintf(output_file,"%s ", $2);	
 		}
 		|
-		EOL {};
+		EOL{};
 
 STREAM_ITEM:	STREAM_ITEM PLUS STREAM_ITEM 
 		{	
@@ -167,7 +165,6 @@ FUNC_VALUE:	LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
 		{
 			$$ = get_func($2);
 		};	
-
 
 
 %%

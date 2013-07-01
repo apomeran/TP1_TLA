@@ -532,8 +532,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lex2.l"
-#line 2 "lex2.l"
+#line 1 "lex.l"
+#line 2 "lex.l"
 #include "y.tab.h"
 #include "stdio.h"
 #include "string.h"
@@ -727,7 +727,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 25 "lex2.l"
+#line 23 "lex.l"
 
 
 #line 734 "lex.yy.c"
@@ -816,83 +816,83 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 27 "lex2.l"
+#line 25 "lex.l"
 return(LEFT_PARENTHESIS);
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 28 "lex2.l"
+#line 26 "lex.l"
 return(RIGHT_PARENTHESIS);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 29 "lex2.l"
+#line 27 "lex.l"
 return(LEFT_BRACE);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "lex2.l"
+#line 28 "lex.l"
 return(RIGHT_BRACE);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 31 "lex2.l"
+#line 29 "lex.l"
 return(PLUS);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 32 "lex2.l"
+#line 30 "lex.l"
 return(EQUALS);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 33 "lex2.l"
+#line 31 "lex.l"
 return(OUT);
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 34 "lex2.l"
+#line 32 "lex.l"
 return(EOL);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "lex2.l"
+#line 33 "lex.l"
 return(STREAM);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 36 "lex2.l"
+#line 34 "lex.l"
 return(TYPE);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 37 "lex2.l"
+#line 35 "lex.l"
 return(FUNCTION);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 38 "lex2.l"
+#line 36 "lex.l"
 return(ENDFUNCTION);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 39 "lex2.l"
+#line 37 "lex.l"
 return(CALL);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 40 "lex2.l"
+#line 38 "lex.l"
 yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 41 "lex2.l"
+#line 39 "lex.l"
 yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 44 "lex2.l"
+#line 41 "lex.l"
 ECHO;
 	YY_BREAK
 #line 899 "lex.yy.c"
@@ -1896,7 +1896,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 44 "lex2.l"
+#line 41 "lex.l"
 
 
 

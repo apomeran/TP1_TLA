@@ -1,0 +1,17 @@
+VOLUME{myVolume}=V100
+NOTE{note}=C4
+DURATION{duration}=T100
+STREAM{stream}=(duration)+(note)+(myVolume)+(myVolume)
+STREAM{stream2}=(stream)+C#4
+NOTE{note2}=G#5
+FUNCTION(myFunction)
+NOTE{fNote}=E6
+OUT(fNote)
+ENDFUNCTION(myFunction)
+OUT(myVolume)
+CALL(myFunction)
+STREAM{functionStream}=B5+T100
+NOTE{note3}=E8
+OUT(functionStream)
+OUT(stream2)
+OUT(note2)

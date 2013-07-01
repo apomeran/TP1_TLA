@@ -1,4 +1,6 @@
-NOTE{minota}=C4
+VOLUME{volume}=V100
+OUT(volume)
+NOTE{minota}=C6
 NOTE{otranota}=(minota)
 OUT(otranota)
 OUT(otranota)

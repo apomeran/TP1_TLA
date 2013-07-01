@@ -1,6 +1,6 @@
 all:
 	yacc -d grammar.y
-	lex lex2.l
+	lex lex.l
 	gcc -o jp3Compiler lex.yy.c y.tab.c -ly
 compile:
 	./parser < myprogram2.py > output.asm

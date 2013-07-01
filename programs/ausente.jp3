@@ -26,7 +26,6 @@ STREAM{prebase2}=(negra)+(sol)+(sol)
 STREAM{premelodia}=T200+G5+T250+G5+T320+B5+T400+G5+T200+B5+T250+C6+T340+C6+T500+A5
 
 FUNCTION(base)
-OUT(negra)
 OUT(baselam)
 OUT(basefa)
 OUT(basesol)
@@ -52,4 +51,3 @@ CALL(estrofa)
 CALL(estrofa)
 OUT(prebase1)
 OUT(prebase2)
-OUT(premelodia)
