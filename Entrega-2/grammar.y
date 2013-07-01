@@ -9,9 +9,16 @@
 
 
 char vars[1024][2][1024];
+char funcs[1024][2][1024];
+
+int in_function = 0;
+char current_function[1024];
+char function_out[1024];
 
 void set_var(char*,char*);
 char * get_var(char*);
+void set_func(char*,char*);
+char * get_func(char*);
 
 %}
 
@@ -30,14 +37,21 @@ char * get_var(char*);
 %token STREAM;
 %token INVALID;
 %token ENDF;
+%token LAMBDA;
+%token EOL;
+%token ENDFUNCTION;
+%token CALL;
 
 %token <strval> ITEM;
 %token <strval> NAME;
+%token <strval> FUNCTION;
 
-
+%type <strval> ASSIGN_NAME;
+%type <strval> VAR_NAME;
 %type <strval> VAR_VALUE;
 %type <strval> STREAM_ITEM;
 %type <strval> TOKEN;
+%type <strval> FUNC_VALUE;
 
 %start PROGRAM
 %%
@@ -46,32 +60,67 @@ PROGRAM:	TOKEN
 			int i, j, k;
 			for(i = 0; i < 1024; i++) {
 				for (j = 0; j < 2; j++) {
-					for (k = 0; k < 1024; k++)
+					for (k = 0; k < 1024; k++) {
 						vars[i][j][k] = 0;
+						funcs[i][j][k] = 0;
+					}
 				}
 			}
 		};
 
-TOKEN:		TOKEN TOKEN{}
+TOKEN:		TOKEN TOKEN {}
 		|
-		TYPE LEFT_BRACE NAME RIGHT_BRACE EQUALS LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
+		TYPE ASSIGN_NAME EQUALS VAR_VALUE EOL
 		{
-			set_var($3, get_var($7));
+			printf("Guardo variable\n");
+			set_var($2, $4);
 		}
 		|
-		TYPE LEFT_BRACE NAME RIGHT_BRACE EQUALS ITEM
+		TYPE ASSIGN_NAME EQUALS ITEM EOL
 		{
-			set_var($3, $6);
+			printf("Guardo item\n");
+			set_var($2, $4);
 		}
 		|	
-		OUT VAR_VALUE
+		OUT VAR_VALUE EOL
 		{
-			printf("%s\n", get_var($2));
+			if (!in_function) {
+				printf("%s\n", $2);
+			} else {
+				if (function_out[0] != 0)	
+					strcat(function_out, " ");
+				strcat(function_out, $2);	
+			}	
 		}
 		|
-		STREAM LEFT_BRACE NAME RIGHT_BRACE EQUALS STREAM_ITEM
+		STREAM ASSIGN_NAME EQUALS STREAM_ITEM EOL
 		{
-			set_var($3, $6);
+			printf("Termino el stream %s con el valor %s\n", $2, $4);
+			set_var($2, $4);
+		}
+		|
+		FUNCTION VAR_NAME EOL
+		{
+			printf("Entrando a funcion\n");
+			if(in_function)
+				yyerror("Nested functions!\n");
+			in_function++;
+			strcpy(current_function, $2);
+		} 
+		|
+		ENDFUNCTION VAR_NAME EOL
+		{
+			if (current_function == NULL || strcmp(current_function, $2))
+				yyerror("Bad EndFunction\n");
+			set_func(current_function, function_out);
+			int i;
+			for (i = 0; i < 1024 && function_out[i] != 0; i++)
+				function_out[i] = 0;
+		}
+		|
+		CALL FUNC_VALUE EOL
+		{
+			printf("%s\n", $2);	
 		};
 
 STREAM_ITEM:	STREAM_ITEM PLUS STREAM_ITEM 
@@ -80,27 +129,38 @@ STREAM_ITEM:	STREAM_ITEM PLUS STREAM_ITEM
 			strcpy(new_stream, $1);
 			strcat(new_stream, " ");
 			strcat(new_stream, $3);
-			printf("holi\n");
-			printf("new stream: %s", new_stream);
 			$$ = new_stream;
 		}
 		|
 		VAR_VALUE
 		{
-			printf("var value");
 			$$ = $1;
 		}
 		|
 		ITEM
 		{
-			printf("item");
 			$$ = $1;
 		};
 
 VAR_VALUE:	LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS 
 		{
 			$$ = get_var($2);
-		}
+		};
+
+VAR_NAME:	LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
+		{
+			$$ = $2;
+		};
+
+ASSIGN_NAME:	LEFT_BRACE NAME RIGHT_BRACE 
+		{
+			$$ = $2;
+		};
+
+FUNC_VALUE:	LEFT_PARENTHESIS NAME RIGHT_PARENTHESIS
+		{
+			$$ = get_func($2);
+		};	
 
 
 
@@ -115,17 +175,22 @@ int main(void) {
 }
 
 void set_var(char * name, char * value) {
+	printf("Guardando %s=%s\n", name, value);
 	int i = 0;
 	while (vars[i][0][0] != 0 && strcmp(vars[i][0], name) && i < 1024)
 		i++;
 
 	if (i < 1024) {
 		strcpy(vars[i][0], name);
-		strcpy(vars[i][1], value); 		
+		strcpy(vars[i][1], value);
+ 		return;
 	}
+	
+	printf("No se pudo guardar\n");
 }
 
 char * get_var(char * name) {
+	printf("Obteniendo %s\n", name);
 	int i = 0;
 	while(vars[i][0][0] != 0 && strcmp(vars[i][0], name) && i < 1024)
 		i++;
@@ -134,4 +199,36 @@ char * get_var(char * name) {
 		if (vars[i][0][0] != 0) 
 			return vars[i][1];	
 	}
+
+	printf("No se encontro\n");
+}
+
+
+void set_func(char * name, char * value) {
+	printf("Guardando funcion %s=%s\n", name, value);
+	int i = 0;
+	while (funcs[i][0][0] != 0 && strcmp(funcs[i][0], name) && i < 1024)
+		i++;
+
+	if (i < 1024) {
+		strcpy(funcs[i][0], name);
+		strcpy(funcs[i][1], value);
+ 		return;
+	}
+	
+	printf("No se pudo guardar\n");
+}
+
+char * get_func(char * name) {
+	printf("Obteniendo funcion %s\n", name);
+	int i = 0;
+	while(funcs[i][0][0] != 0 && strcmp(funcs[i][0], name) && i < 1024)
+		i++;
+
+	if (i < 1024) {
+		if (funcs[i][0][0] != 0) 
+			return funcs[i][1];	
+	}
+
+	printf("No se encontro\n");
 }

@@ -23,8 +23,8 @@ STREAM	("STREAM")
 
 %%
 
-"("		return(LEFT_PARENTHESIS);
-")"		return(RIGHT_PARENTHESIS);
+"("		printf("lp ");return(LEFT_PARENTHESIS);
+")"		printf("rp ");return(RIGHT_PARENTHESIS);
 "{"		return(LEFT_BRACE);
 "}"		return(RIGHT_BRACE);
 "+"		return(PLUS);
@@ -34,8 +34,8 @@ STREAM	("STREAM")
 "\n\n"		return(LAMBDA);
 ^{STREAM}	return(STREAM);
 ^{TYPE}		return(TYPE);
-^{FUNCTION}	return(FUNCTION);
-^{ENDFUNCTION}	return(ENDFUNCTION);
+^{FUNCTION}	printf("Function\n");return(FUNCTION);
+^{ENDFUNCTION}	printf("EndFucnction\n");return(ENDFUNCTION);
 ^{CALL}		return(CALL);
 {ITEM}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(ITEM);
 {NAME}		yylval.strval = malloc(strlen(yytext)); strcpy(yylval.strval, yytext); return(NAME);
